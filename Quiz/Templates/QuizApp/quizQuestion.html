@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Examination System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #fff;
+            border-bottom: 2px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exam-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .exam-meta {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stat-item {
+            background: #ecf0f1;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .timer {
+            background: #e74c3c;
+            color: white;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            background: #34495e;
+            height: 4px;
+            width: 100%;
+        }
+
+        .progress-fill {
+            background: #3498db;
+            height: 100%;
+            width: 27%;
+            transition: width 0.3s ease;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            /* display: flex; */
+            gap: 30px;
+        }
+
+       
+
+        .question-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .question-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .question-number {
+            background: #495057;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .question-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .question-type {
+            background: #007bff;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .question-points {
+            color: #6c757d;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #212529;
+            font-weight: 500;
+        }
+
+        .question-body {
+            padding: 20px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+            border-color: #007bff;
+        }
+
+        .option.selected {
+            background: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+
+        .option-label {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #6c757d;
+            color: rgb(12, 12, 12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-label {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .option-text {
+            font-size: 16px;
+        }
+
+        .question-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .bookmark-btn:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .bookmark-btn.active {
+            color: #ffc107;
+            background: #fff3cd;
+        }
+
+        .answer-status {
+            font-size: 13px;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 4px;
+        }
+
+        .status-answered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-unanswered {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .grid-btn {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .grid-btn.answered {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .grid-btn.unanswered {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .grid-btn.current {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+            transform: scale(1.1);
+        }
+
+        .grid-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .summary-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            display: block;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .submit-card {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .submit-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .submit-desc {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #218838;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .legend-answered { background: #28a745; }
+        .legend-unanswered { background: #dc3545; }
+        .legend-current { background: #007bff; }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+
+
+
+                #messages {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 300px;
+        z-index: 9999;
+    }     /* Container at center-bottom */
+#toast-container {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Toast message box */
+.toast {
+    min-width: 220px;
+    max-width: 320px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: toast-in 0.4s forwards;
+}
+
+/* Color variants */
+.toast.success { background: #28a745; }
+.toast.error   { background: #dc3545; }
+.toast.info    { background: #17a2b8; }
+.toast.warning { background: #ffc107; color: #000; }
+
+/* Slide in animation */
+@keyframes toast-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade out animation */
+@keyframes toast-out {
+    to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
+    </style>
+</head>
+<body>
+    
+  {% if messages %}
+<div id="toast-container">
+    {% for message in messages %}
+        <div class="toast {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll(".toast");
+        toasts.forEach(toast => {
+            setTimeout(() => {
+                toast.style.animation = "toast-out 0.5s forwards";
+                setTimeout(() => toast.remove(), 500);
+            }, 3000); // stays 4s
+        });
+    });
+</script>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <div class="exam-title">{{category.category}}</div>
+                <div class="exam-meta">Duration:  {{category.duration}} min | Total Questions: 15 | Total Marks: {{points}}</div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">Questions: 15</div>
+                <div class="stat-item">Marks: {{points}}</div>
+                <div class="stat-item timer">Time Left:<span id="timer">{{duration}}</span></div>
+            </div>
+        </div>
+        <div class="progress-bar">
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <form action="{% url 'submission' category.id %}" method="POST" id="quiz-form">
+            {% csrf_token %}
+
+            <input type="hidden" name="time_taken" id="time_taken" value="0">
+            
+
+        <div class="questions-section">
+            <!-- Questions -->
+            {% if questions %}
+            {% for question in questions %}
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">{{ forloop.counter }}</div>
+                    <div class="question-info">
+                        <div class="question-type">Multiple Choice</div>
+                        <div class="question-points">{{question.point}} marks</div>
+                    </div>
+                    <div class="question-text">{{question.question}}?</div>
+                </div>
+                <div class="question-body">
+                    <div class="options">
+                        {% for ans in question.answers.all %}
+                        <div class="option">
+                            <label>
+                                <input type="radio" name="q{{ question.id }}" value="{{ ans.id }}">
+                                {{ ans.answer }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="question-footer">
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h2>No questions of this</h2>
+            {% endif %}
+
+           
+            <div class="submit-card">
+                <div class="submit-title">Submit Your Exam</div>
+                <div class="submit-desc">Please review all your answers before submitting. You won't be able to change answers after submission.</div>
+                <button class="submit-btn" type="submit">Submit Exam</button>
+            </div>
+        </div>
+        </form>
+
+    </div>
+ </body>
+<script>
+    let time={{duration}}
+  let total = time * 60;   // 15 minutes in seconds
+  let remaining = total;
+  let timerEl = document.getElementById("timer");
+  let form = document.getElementById("quiz-form");
+  let timeUsedInput = document.getElementById("time_taken");
+
+  function tick() {
+    let m = Math.floor(remaining / 60);
+    let s = remaining % 60;
+    timerEl.textContent = m + ":" + (s < 10 ? "0" : "") + s;
+
+    if (remaining <= 0) {
+      timeUsedInput.value = total; // full time used
+      form.submit();
+    }
+    remaining--;
+  }
+
+  // Before submit, save time used
+  form.addEventListener("submit", function() {
+    timeUsedInput.value = total - remaining;
+  });
+
+  tick();
+  setInterval(tick, 1000);
+</script> 
+
+</html>
