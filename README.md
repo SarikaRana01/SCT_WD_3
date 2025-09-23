@@ -82,7 +82,8 @@ Visit http://127.0.0.1:8000/ to access the app.
 
 
 
-Project Structure
+### Project Structure
+```bash
 QuizApp/
 ├── migrations/
 ├── static/
@@ -95,15 +96,16 @@ QuizApp/
 ├── views.py
 ├── urls.py
 └── ...
+```
 
-Notes
+### Notes
 
-The fixtures/quizdata.json file contains pre-loaded quiz categories, questions, and answers.
+.The fixtures/quizdata.json file contains pre-loaded quiz categories, questions, and answers.
 
-Timer is configurable per category in the QuizCategory model.
+.Timer is configurable per category in the QuizCategory model.
 
-Users cannot change answers after submission.
+.Users cannot change answers after submission.
 
-Sensitive information like secret keys should be stored in .env file (do not push to GitHub).
+.Sensitive information like secret keys should be stored in .env file (do not push to GitHub).
 
 
