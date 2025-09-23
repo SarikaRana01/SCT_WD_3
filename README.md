@@ -35,10 +35,75 @@ git clone https://github.com/<username>/<repo>.git
 cd <repo>
 ```
 
-2. Create virtual environment
-python -m venv venv
+### 2. Create virtual environment
+```bash
+ python -m venv venv
 source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
+```
 
+
+### 3. Install dependencies
+ ``` pip install -r requirements.txt ```
+
+### 4. Migrate database
+``bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 5. Create superuser (for admin)
+   ```bash
+python manage.py createsuperuser
+```
+
+### 6. Load quiz data (fixtures)
+ ```bash
+python manage.py loaddata fixtures/quizdata.json
+```
+
+### 7. Run the server
+   ```bash
+python manage.py runserver
+```
+
+```bash
+Visit http://127.0.0.1:8000/ to access the app.
+```
+
+### Screenshots
+1. Home Page / Dashboard
+
+2. Quiz Selection Page
+
+3. Quiz Page with Timer
+
+4. Quiz Submission & Score
+
+
+
+Project Structure
+QuizApp/
+├── migrations/
+├── static/
+├── templates/
+│   ├── QuizApp/
+│   │   ├── QuizQuestion.html
+│   │   ├── quizScore.html
+│   │   └── ...
+├── models.py
+├── views.py
+├── urls.py
+└── ...
+
+Notes
+
+The fixtures/quizdata.json file contains pre-loaded quiz categories, questions, and answers.
+
+Timer is configurable per category in the QuizCategory model.
+
+Users cannot change answers after submission.
+
+Sensitive information like secret keys should be stored in .env file (do not push to GitHub).
 
 
