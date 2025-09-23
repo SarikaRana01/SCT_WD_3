@@ -33,6 +33,7 @@ A Django-based **Online Quiz System** that allows users to register, login, and 
 ```bash
 git clone https://github.com/<username>/<repo>.git
 cd <repo>
+```
 
 2. Create virtual environment
 python -m venv venv
