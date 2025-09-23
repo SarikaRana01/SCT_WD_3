@@ -1,6 +1,6 @@
 # Online Quiz System
 
-A Django-based Online Quiz System where users can register, login, and take quizzes across multiple categories with scoring and timer functionality.
+A Django-based **Online Quiz System** that allows users to register, login, and take quizzes across multiple categories with a scoring system. The project supports **easy, medium, and hard** questions, timers, and user score tracking.
 
 ---
 
@@ -8,68 +8,87 @@ A Django-based Online Quiz System where users can register, login, and take quiz
 
 - User authentication (signup, login, logout)
 - Category-based quizzes
-- Multiple-choice questions (4 options, 1 correct)
-- Timer for each quiz
-- User score tracking and display
-- Admin panel for managing quizzes and categories
+- Multiple-choice questions with 4 options
+- Timer functionality for each quiz
+- User score calculation and result display
+- Admin panel to manage categories, questions, and answers
+- Dashboard to view scores
+
+---
+
+## Technologies Used
+
+- Django 4.x
+- Python 3.x
+- SQLite / PostgreSQL (optional)
+- HTML, CSS, JavaScript
+- Bootstrap (optional for styling)
 
 ---
 
 ## Setup Instructions
 
-1. **Clone the repo**
+### 1. Clone the repository
+
 ```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
-Create virtual environment
 
-bash
-Copy code
+2. Create virtual environment
 python -m venv venv
-# Windows
-venv\Scripts\activate
-# Linux/Mac
-source venv/bin/activate
-Install dependencies
+source venv/bin/activate   # Linux / Mac
+venv\Scripts\activate      # Windows
 
-bash
-Copy code
+3. Install dependencies
 pip install -r requirements.txt
-Migrate database
 
-bash
-Copy code
+4. Migrate database
 python manage.py makemigrations
 python manage.py migrate
-Create superuser
 
-bash
-Copy code
+5. Create superuser (for admin)
 python manage.py createsuperuser
-Load quiz data
 
-bash
-Copy code
+6. Load quiz data (fixtures)
 python manage.py loaddata fixtures/quizdata.json
-Run the server
 
-bash
-Copy code
+7. Run the server
 python manage.py runserver
-Access the app at http://127.0.0.1:8000/
+
+
+Visit http://127.0.0.1:8000/ to access the app.
 
 Screenshots
-Home / Dashboard
+1. Home Page / Dashboard
 
-Quiz Page with Timer
+2. Quiz Selection Page
 
-Score Page
+3. Quiz Page with Timer
 
-Admin Panel
+4. Quiz Submission & Score
+
+5. Admin Panel
+
+Project Structure
+QuizApp/
+├── migrations/
+├── static/
+├── templates/
+│   ├── QuizApp/
+│   │   ├── QuizQuestion.html
+│   │   ├── quizScore.html
+│   │   └── ...
+├── models.py
+├── views.py
+├── urls.py
+└── ...
 
 Notes
-The fixtures/quizdata.json contains quiz categories, questions, and answers.
 
-Timer duration is set per category.
+The fixtures/quizdata.json file contains pre-loaded quiz categories, questions, and answers.
 
-Sensitive info like SECRET_KEY should be stored in .env (do not push to GitHub)
+Timer is configurable per category in the QuizCategory model.
+
+Users cannot change answers after submission.
+
+Sensitive information like secret keys should be stored in .env file (do not push to GitHub).
+git clone https://github.com/<username>/<repo>.git
+cd <repo>
