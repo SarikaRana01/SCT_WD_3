@@ -72,20 +72,34 @@ Visit http://127.0.0.1:8000/ to access the app.
 ```
 
 ### Screenshots
+
+
 **Home / SignUp**  
-![Dashboard](Screenshots/SignUp.png)
+
+![Dashboard](Screenshots/Signup.png)
+
+
 
 **Home / Category**  
+
 ![Dashboard](Screenshots/Category.png)
+
+
 
 **Quiz Questions**   
 ![Quiz Selection](Screenshots/Questions.png)
 
+
+
 **Quiz Answers**  
-![Quiz Page](Screenshots/Answers.png)
+
+![Quiz Page](Screenshots/answers.png)
+
+
 
 **Quiz Submission & Score**  
-![Score Page](Screenshots/Score.png)
+
+![Score Page](Screenshots/score.png)
 
 
 
